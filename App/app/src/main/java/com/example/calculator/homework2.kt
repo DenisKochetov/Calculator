@@ -3,33 +3,12 @@ package com.example.сalculator
 import java.lang.StrictMath.sqrt
 
 fun main(){
-    val figures = listOf(
-        Square(listOf(3.0)),
-        Rectangle(listOf(2.0, 4.0)),
-        Triangle(listOf(4.0, 3.0, 5.0)))
-    for (fig in figures){
-        println(fig.name + " с периметром: "+fig.perimeter+", площадью: " + "%.2f".format(fig.square))
-    }
-    val sumSquare = figures.sumOf{it.square}
-    println("Сумма площадей: " + "%.2f".format(sumSquare))
+//    test()
 
-    val maxPerim = figures.maxOf { it.perimeter }
-    println("Максимальный периметр: "+ maxPerim)
-    var listMaxPer = figures.filter{it.perimeter == maxPerim}
-    println("Фигуры с макс периметром: ")
-    for (fig in listMaxPer){
-        println(fig.name +" со сторонами: "+ fig.listOfSides)
     }
 
-    val maxSquare = figures.maxOf { it.square }
-    println("Максимальная площаль: "+ "%.2f".format(maxSquare))
-    var listMaxSquare = figures.filter{it.square == maxSquare}
-    println("Фигуры с макс площадью: ")
-    for (fig in listMaxSquare){
-        println(fig.name +" со сторонами "+ fig.listOfSides)
-    }
 
-}
+
 
 //fun findMaxFigs(figures: List<Figure>, param: String){
 //    val maxPerim = figures.maxOf { it.getAttribute(param)}
@@ -97,3 +76,31 @@ class Triangle(
     override val name: String = "Треугольник"
 }
 
+fun test() {
+    val figures = listOf(
+        Square(listOf(3.0)),
+        Rectangle(listOf(2.0, 4.0)),
+        Triangle(listOf(4.0, 3.0, 5.0))
+    )
+    for (fig in figures) {
+        println(fig.name + " с периметром: " + fig.perimeter + ", площадью: " + "%.2f".format(fig.square))
+    }
+    val sumSquare = figures.sumOf { it.square }
+    println("Сумма площадей: " + "%.2f".format(sumSquare))
+
+    val maxPerim = figures.maxOf { it.perimeter }
+    println("Максимальный периметр: " + maxPerim)
+    var listMaxPer = figures.filter { it.perimeter == maxPerim }
+    println("Фигуры с макс периметром: ")
+    for (fig in listMaxPer) {
+        println(fig.name + " со сторонами: " + fig.listOfSides)
+    }
+
+    val maxSquare = figures.maxOf { it.square }
+    println("Максимальная площаль: " + "%.2f".format(maxSquare))
+    var listMaxSquare = figures.filter { it.square == maxSquare }
+    println("Фигуры с макс площадью: ")
+    for (fig in listMaxSquare) {
+        println(fig.name + " со сторонами " + fig.listOfSides)
+    }
+}

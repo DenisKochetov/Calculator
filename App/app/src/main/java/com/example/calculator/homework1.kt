@@ -1,7 +1,7 @@
 package com.example.calculator
 
 fun main(){
-    sumList()
+//    sumList()
 
 }
 

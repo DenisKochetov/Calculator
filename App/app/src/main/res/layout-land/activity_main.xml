@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/calculation"
         android:layout_width="match_parent"
-        android:layout_height="80sp"
+        android:layout_height="75sp"
         android:textColor="@android:color/white"
         android:gravity="end"
         android:ellipsize="start"
@@ -22,13 +22,13 @@
     <TextView
         android:id="@+id/result"
         android:layout_width="match_parent"
-        android:layout_height="100sp"
+        android:layout_height="75sp"
         android:textColor="@android:color/white"
         android:gravity="end"
         android:ellipsize="end"
         android:textSize="40sp"
         android:singleLine="true"
-        android:text=""
+        android:text="0"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,6 +61,11 @@
                 android:id="@+id/btn_divide"
                 android:text="/"
                 />
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_power"
+                android:text="x^2"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -87,6 +92,11 @@
                 style="@style/ActionButton"
                 android:id="@+id/btn_multiply"
                 android:text="*"
+                />
+            <TextView
+                style="@style/ActionButton"
+                android:id="@+id/btn_sqrt"
+                android:text="sqrt(x)"
                 />
         </LinearLayout>
         <LinearLayout
@@ -116,6 +126,11 @@
                 android:id="@+id/btn_plus"
                 android:text="+"
                 />
+            <TextView
+                style="@style/OptionButton"
+                android:id="@+id/btn_operations"
+                android:text="Operations"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,6 +158,11 @@
                 android:id="@+id/btn_minus"
                 android:text="-"
                 />
+            <TextView
+                style="@style/OptionButton"
+                android:id="@+id/btn_precision"
+                android:text="Precision"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,6 +189,11 @@
                 style="@style/ActionButton"
                 android:id="@+id/btn_equal"
                 android:text="="
+                />
+            <TextView
+                style="@style/OptionButton"
+                android:id="@+id/btn_vibration"
+                android:text="Vibration"
                 />
         </LinearLayout>
 
