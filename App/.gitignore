@@ -13,3 +13,15 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea
+.kotlintest
+run.sh
+*.idea
+*.jks
+*.apk
+*.aab
+output-metadata.json
+/fastlane/README.md
+/fastlane/report.xml
+/build.properties
+
