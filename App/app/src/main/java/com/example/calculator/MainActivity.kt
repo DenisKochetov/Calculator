@@ -3,8 +3,9 @@ package com.example.calculator
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
+import net.objecthunter.exp4j.ExpressionBuilder
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,10 +28,18 @@ class MainActivity : AppCompatActivity() {
         btn_dot.setOnClickListener{updateText(".")}
         btn_AC.setOnClickListener{deleteText()}
         btn_back.setOnClickListener{backText() }
+        btn_equal.setOnClickListener{doMath() }
+
+    }
+    private fun openSettings(){
 
     }
 
-    fun updateText(str: String){
+    private fun updateText(str: String){
+        if (result.text != "" && result.text != "Error"){
+            calculation.text = result.text
+            result.text = ""
+        }
         calculation.append(str)
     }
     fun deleteText(){
@@ -40,8 +49,31 @@ class MainActivity : AppCompatActivity() {
     fun backText(){
         if (calculation.text.isNotEmpty()){
             calculation.text = calculation.text.substring(0, calculation.text.length-1)
+            result.text = ""
+
+        }
+    }
+    fun doMath(){
+        try{
+            val ex = ExpressionBuilder(calculation.text.toString()).build()
+            val answer = ex.evaluate()
+            val longRes = answer.toLong()
+            if (answer == longRes.toDouble()){
+                result.text = longRes.toString()
+            }
+            else{
+                result.text = answer.toString()
+            }
+
+
+
+        }
+        catch (e:Exception){
+            result.text = "Error"
 
         }
     }
 
 }
+
+
