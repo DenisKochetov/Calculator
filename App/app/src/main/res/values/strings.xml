@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Calculator</string>
+    <array name="R">
+        <item> 2323</item>
+
+
+    </array>
 </resources>
