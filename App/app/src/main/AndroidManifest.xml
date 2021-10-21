@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AppCompat.Light">
 <!--        android:theme="@style/Theme.Calculator">-->
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".presentation.settings.SettingsActivity"/>
+
     </application>
 
 </manifest>
