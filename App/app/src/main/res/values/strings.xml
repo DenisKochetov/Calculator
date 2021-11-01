@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Calculator</string>
+    <array name="result_panel_types">
+        <item>Есть. Слева.</item>
+        <item>Есть. Справа.</item>
+        <item>Скрыта.</item>
+
+    </array>
+
     <array name="R">
         <item> 2323</item>
 
