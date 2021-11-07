@@ -1,5 +1,4 @@
-package com.example.calculator
-import kotlinx.android.synthetic.main.main_activity.*
+package com.example.calculator.domain
 import net.objecthunter.exp4j.ExpressionBuilder
 
 fun calculateExpression(expression: String): String{

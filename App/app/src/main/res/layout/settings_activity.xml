@@ -37,10 +37,10 @@
         app:layout_constraintTop_toBottomOf="@+id/title">
 
     <TextView
-        android:id="@+id/result_panel"
+        android:id="@+id/result_panel_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Панель результата"
+        android:text="@string/settings_result_panel_title"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:layout_marginStart="15dp"

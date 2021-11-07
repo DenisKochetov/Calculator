@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Calculator</string>
+    <string name="history_title">История</string>
+    <string name="settings_result_panel_title">Панель результата</string>
     <array name="result_panel_types">
         <item>Есть. Слева.</item>
         <item>Есть. Справа.</item>
@@ -7,9 +9,5 @@
 
     </array>
 
-    <array name="R">
-        <item> 2323</item>
 
-
-    </array>
 </resources>

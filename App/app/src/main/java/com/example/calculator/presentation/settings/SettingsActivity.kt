@@ -3,18 +3,19 @@ package com.example.calculator.presentation.settings
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.calculator.R
 import com.example.calculator.databinding.SettingsActivityBinding
+import com.example.calculator.domain.entity.ResultPanelType
 import com.example.calculator.presentation.common.BaseActivity
-
 
 
 class SettingsActivity: BaseActivity() {
 
-//    private val viewBinding by viewBinding(SettingsActivityBinding::bind)
+//    companion object {
+//        const val SETTINGS_RESULT_KEY = "SETTING_RESULT_KEY"
+//    }
 
 
     private val viewModel by viewModels<SettingsViewModel>()
@@ -26,42 +27,44 @@ class SettingsActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
 //        val data = intent.getIntExtra(SETTINGS_RESULT_KEY, -1)
-        Toast.makeText(this, "Назад", Toast.LENGTH_SHORT).show()
 
-//        viewBinding.settingsBack.setOnClickListener{
-          viewBinding.settingsBack.setOnClickListener{
+//        Toast.makeText(this, "Назад", Toast.LENGTH_SHORT).show()
+
+        viewBinding.settingsBack.setOnClickListener{
             finish()
         }
 
         viewBinding.resultPanelContainer.setOnClickListener{
-            showDialog()
+            viewModel.onResultPanelTypeClicked()
         }
-//        result_panel.setOnClickListener{
-//            showDialog()
-//        }
-//        _resultPanelState.observe(this){state ->
-//            result_panel.Description
-//        }
+
+        viewModel.resultPanelState.observe(this){state ->
+            viewBinding.resultPanelDescription.text =
+                resources.getStringArray(R.array.result_panel_types)[state.ordinal]
+        }
+
+        viewModel.openResultPanelAction.observe(this){ type ->
+            showDialog(type)
+
+        }
+
+
 
     }
 
-    override fun <T> viewModels(t: T): T {
-        TODO("Not yet implemented")
-    }
-
-    private fun showDialog(){
+    private fun showDialog(type: ResultPanelType){
+        var result: Int? = null
         AlertDialog.Builder(this)
-            .setTitle("Title")
+            .setTitle(R.string.settings_result_panel_title)
 //            .setMessage("Message")
-            .setPositiveButton("Ок"){dialog, id ->}
+            .setPositiveButton("Ок"){dialog, id ->
+                result?.let {viewModel.onResultPanelTypeChanged(ResultPanelType.values()[it])}
+            }
             .setNegativeButton("Отмена"){dialog, id ->}
-            .setSingleChoiceItems(R.array.result_panel_types, 1) {dialog, id ->
-                Toast.makeText(this, id.toString(), Toast.LENGTH_LONG).show()
+            .setSingleChoiceItems(R.array.result_panel_types, type.ordinal) {dialog, id ->
+                result = id
             }
             .show()
     }
 }
 
-enum class ResultPanelType{
-    LEFT, RIGHT, HIDE
-}

@@ -20,7 +20,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.settings.SettingsActivity"/>
+        <activity android:name=".presentation.settings.SettingsActivity"
+            android:exported="true">
+            <intent-filter>
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".presentation.history.HistoryActivity"/>
+
+
+
+
+
+
 
     </application>
 

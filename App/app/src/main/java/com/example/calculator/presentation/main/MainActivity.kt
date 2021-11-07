@@ -1,138 +1,138 @@
 package com.example.calculator.presentation.main
 
-//import androidx.appcompat.app.AppCompatActivity
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.calculator.R
-import com.example.calculator.presentation.common.BaseActivity
+import com.example.calculator.databinding.MainActivityBinding
+import com.example.calculator.di.HistoryRepositoryProvider
+import com.example.calculator.di.SettingsDaoProvider
 import com.example.calculator.presentation.history.HistoryActivity
 import com.example.calculator.presentation.settings.SettingsActivity
-import kotlinx.android.synthetic.main.main_activity.*
-import net.objecthunter.exp4j.ExpressionBuilder
+//import kotlinx.android.synthetic.main.main_activity.*
 
-open class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
-//    private val viewBinding by viewBinding(MainActivityBinding::bind)
 
-//    private val getResult: ActivityResultLauncher<Int>
+    private val viewBinding by viewBinding(MainActivityBinding::bind)
+    private val viewModel by viewModels<MainViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return MainViewModel(SettingsDaoProvider.getDao(this@MainActivity),
+                    HistoryRepositoryProvider.get(this@MainActivity)
+                ) as T
+            }
+        }
+    }
+
+//    private val getResult: ActivityResultLauncher<Int> =
 //        registerForActivityResult(Result()) {result ->
-//
-//        Toast.makeText(this, "result $result", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "result $result", Toast.LENGTH_SHORT).show()
 //        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
 
-        btn_0.setOnClickListener { updateText("0") }
-        btn_1.setOnClickListener { updateText("1") }
-        btn_2.setOnClickListener { updateText("2") }
-        btn_3.setOnClickListener { updateText("3") }
-        btn_4.setOnClickListener { updateText("4") }
-        btn_5.setOnClickListener { updateText("5") }
-        btn_6.setOnClickListener { updateText("6") }
-        btn_7.setOnClickListener { updateText("7") }
-        btn_8.setOnClickListener { updateText("8") }
-        btn_9.setOnClickListener { updateText("9") }
-        btn_minus.setOnClickListener { updateText("-") }
-        btn_plus.setOnClickListener { updateText("+") }
-        btn_divide.setOnClickListener { updateText("/") }
-        btn_multiply.setOnClickListener { updateText("*") }
-        btn_left_bracket.setOnClickListener { updateText("(") }
-        btn_right_bracket.setOnClickListener { updateText(")") }
-        btn_dot.setOnClickListener { updateText(".") }
-        btn_AC.setOnClickListener { deleteText() }
-        btn_back.setOnClickListener { backText() }
-        btn_equal.setOnClickListener { doMath() }
+        viewBinding.btnAC?.setOnClickListener{viewModel.deleteText()}
+        viewBinding.btnBack?.setOnClickListener{viewModel.backText()}
+        viewBinding.btnEqual?.setOnClickListener{viewModel.doMath()}
 
-//        listOf(
-//            viewBinding.btn_0,
-//            viewBinding.btn_1,
-//            viewBinding.btn_2,
-//            viewBinding.btn_3,
-//            viewBinding.btn_4,
-//            viewBinding.btn_5,
-//            viewBinding.btn_6,
-//            viewBinding.btn_7,
-//            viewBinding.btn_8,
-//            viewBinding.btn_9,
-//            viewBinding.btn_minus,
-//            viewBinding.btn_plus,
-//            viewBinding.btn_divide,
-//            viewBinding.btn_multiply,
-//            viewBinding.btn_left_bracket,
-//            viewBinding.btn_right_bracket,
-//            viewBinding.btn_dot
-//        ).forEachIndexed{index, textView ->
-//            textView.setOnClickListener {viewModel.onNumberClick(index)}
-//
-//        }
+        listOf(
+            viewBinding.btn0,
+            viewBinding.btn1,
+            viewBinding.btn2,
+            viewBinding.btn3,
+            viewBinding.btn4,
+            viewBinding.btn5,
+            viewBinding.btn6,
+            viewBinding.btn7,
+            viewBinding.btn8,
+            viewBinding.btn9,
+            viewBinding.btnPlus,
+            viewBinding.btnMinus,
+            viewBinding.btnLeftBracket,
+            viewBinding.btnRightBracket,
+            viewBinding.btnMultiply,
+            viewBinding.btnDivide,
+            viewBinding.btnDot
+        ).forEach{command ->
+            val text = command?.getText().toString()
+            command?.setOnClickListener { viewModel.onNumberClick(text) }
+        }
+
+
+
         viewModel.expressionState.observe(this) { state ->
-            calculation.setText(state)
+            viewBinding.expression?.text = state
         }
 
         viewModel.resultState.observe(this){state ->
-            result.setText(state)
+            viewBinding.result.text = state
         }
 
-        main_activity_settings.setOnClickListener { openSettings() }
+        viewBinding.mainActivitySettings?.setOnClickListener {
+            openSettings()
+        }
 
+        viewBinding.mainActivityHistory?.setOnClickListener{
+            openHistory()
+        }
 
     }
 
-    override fun <T> viewModels(t: T): T {
-        TODO("Not yet implemented")
-    }
 
     private fun updateText(str: String) {
-        if (result.text != "" && result.text != "Error") {
-            calculation.text = result.text
-            result.text = ""
+        if (viewBinding.result.text != "" && viewBinding.result.text != "Error") {
+            viewBinding.expression?.text = viewBinding.result.text
+            viewBinding.result.text = ""
         }
-        calculation.append(str)
+        viewBinding.expression?.append(str)
     }
 
-    fun deleteText() {
-        calculation.text = ""
-        result.text = ""
-    }
+//    fun deleteText() {
+//        calculation.text = ""
+//        result.text = ""
+//    }
 
-    fun backText() {
-        if (calculation.text.isNotEmpty()) {
-            calculation.text = calculation.text.substring(0, calculation.text.length - 1)
-            result.text = ""
+//    fun backText() {
+//        if (calculation.text.isNotEmpty()) {
+//            calculation.text = calculation.text.substring(0, calculation.text.length - 1)
+//            result.text = ""
+//
+//        }
+//    }
 
-        }
-    }
+//    fun doMath() {
+//        try {
+//            val ex = ExpressionBuilder(calculation.text.toString()).build()
+//            val answer = ex.evaluate()
+//            val longRes = answer.toLong()
+//            if (answer == longRes.toDouble()) {
+//                result.text = longRes.toString()
+//            } else {
+//                result.text = answer.toString()
+//            }
+//
+//
+//        } catch (e: Exception) {
+//            result.text = "Error"
+//
+//        }
+//    }
 
-    fun doMath() {
-        try {
-            val ex = ExpressionBuilder(calculation.text.toString()).build()
-            val answer = ex.evaluate()
-            val longRes = answer.toLong()
-            if (answer == longRes.toDouble()) {
-                result.text = longRes.toString()
-            } else {
-                result.text = answer.toString()
-            }
-
-
-        } catch (e: Exception) {
-            result.text = "Error"
-
-        }
-    }
-
-    fun openSettings() {
+    private fun openSettings() {
         Toast.makeText(this, "Открытие настроек", Toast.LENGTH_SHORT).show()
-        Intent(this, SettingsActivity::class.java).also{
-            startActivity(it)
-        }
+        startActivity(Intent(this, SettingsActivity::class.java))
+//        intent.putExtra(SettingsActivity.SETTINGS_RESULT_KEY, 10)
+//        startActivity(intent)
 
     }
 

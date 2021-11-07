@@ -1,9 +1,8 @@
 package com.example.calculator.presentation.common
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-//import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -30,5 +29,4 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    abstract fun <T> viewModels(t: T): T
 }
