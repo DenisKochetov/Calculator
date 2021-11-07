@@ -8,21 +8,27 @@
     android:orientation="vertical"
     tools:context=".presentation.main.MainActivity">
     <ImageView
-        android:id="@+id/main_activity_settings"
-        android:layout_width="62dp"
-        android:layout_height="59dp"
-        android:layout_gravity="start|bottom"
+        android:id="@+id/mainActivitySettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
         android:text="Настройки"
-        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_settings_24">
-
 
     </ImageView>
 
 
+    <ImageView
+        android:id="@+id/mainActivityHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_history_24"
+        />
+
+
+
     <TextView
-        android:id="@+id/calculation"
+        android:id="@+id/expression"
         android:layout_width="match_parent"
         android:layout_height="80sp"
         android:ellipsize="start"
@@ -60,22 +66,22 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_AC"
+                android:id="@+id/btnAC"
                 style="@style/ActionButton"
                 android:text="AC" />
 
             <TextView
-                android:id="@+id/btn_left_bracket"
+                android:id="@+id/btnLeftBracket"
                 style="@style/ActionButton"
                 android:text="(" />
 
             <TextView
-                android:id="@+id/btn_right_bracket"
+                android:id="@+id/btnRightBracket"
                 style="@style/ActionButton"
                 android:text=")" />
 
             <TextView
-                android:id="@+id/btn_divide"
+                android:id="@+id/btnDivide"
                 style="@style/ActionButton"
                 android:text="/" />
         </LinearLayout>
@@ -87,22 +93,22 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_7"
+                android:id="@+id/btn7"
                 style="@style/NumberButton"
                 android:text="7" />
 
             <TextView
-                android:id="@+id/btn_8"
+                android:id="@+id/btn8"
                 style="@style/NumberButton"
                 android:text="8" />
 
             <TextView
-                android:id="@+id/btn_9"
+                android:id="@+id/btn9"
                 style="@style/NumberButton"
                 android:text="9" />
 
             <TextView
-                android:id="@+id/btn_multiply"
+                android:id="@+id/btnMultiply"
                 style="@style/ActionButton"
                 android:text="*" />
         </LinearLayout>
@@ -114,24 +120,24 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_4"
+                android:id="@+id/btn4"
                 style="@style/NumberButton"
                 android:text="4" />
 
             <TextView
-                android:id="@+id/btn_5"
+                android:id="@+id/btn5"
                 style="@style/NumberButton"
                 android:text="5" />
 
             <TextView
-                android:id="@+id/btn_6"
+                android:id="@+id/btn6"
                 style="@style/NumberButton"
                 android:text="6" />
 
             <TextView
-                android:id="@+id/btn_plus"
+                android:id="@+id/btnPlus"
                 style="@style/ActionButton"
-                android:text="+" />
+                android:text="+"/>
         </LinearLayout>
 
         <LinearLayout
@@ -141,24 +147,24 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_1"
+                android:id="@+id/btn1"
                 style="@style/NumberButton"
                 android:text="1" />
 
             <TextView
-                android:id="@+id/btn_2"
+                android:id="@+id/btn2"
                 style="@style/NumberButton"
                 android:text="2" />
 
             <TextView
-                android:id="@+id/btn_3"
+                android:id="@+id/btn3"
                 style="@style/NumberButton"
                 android:text="3" />
 
             <TextView
-                android:id="@+id/btn_minus"
+                android:id="@+id/btnMinus"
                 style="@style/ActionButton"
-                android:text="—" />
+                android:text="-" />
         </LinearLayout>
 
         <LinearLayout
@@ -168,31 +174,43 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/btn_dot"
+                android:id="@+id/btnDot"
                 style="@style/NumberButton"
                 android:text="." />
 
             <TextView
-                android:id="@+id/btn_0"
+                android:id="@+id/btn0"
                 style="@style/NumberButton"
                 android:text="0" />
 
             <ImageView
-                android:id="@+id/btn_back"
+                android:id="@+id/btnBack"
                 style="@style/NumberButton"
                 app:srcCompat="@drawable/ic_outline_backspace_24"
                 android:scaleType="center"
                 />
 
             <TextView
-                android:id="@+id/btn_equal"
+                android:id="@+id/btnEqual"
                 style="@style/ActionButton"
                 android:text="=" />
         </LinearLayout>
 
 
+
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_history_24" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_history_24" />
 
 
 </LinearLayout>

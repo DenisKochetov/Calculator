@@ -3,8 +3,7 @@ package com.example.сalculator
 import java.lang.StrictMath.sqrt
 
 fun main(){
-//    test()
-
+    test()
     }
 
 
@@ -56,6 +55,19 @@ class Rectangle(
     override val square: Double = listOfSides[0] * listOfSides[1]
     override val name: String = "Прямоугольник"
 }
+class Circle(
+    override val listOfSides: List<Double>,
+
+    ): Figure(){
+    init {
+        require(listOfSides.size == 1){
+            "нужен только радиус один"
+        }
+    }
+    override val perimeter: Double = 2 * Math.PI * listOfSides[0]
+    override val square: Double = Math.PI * listOfSides[0] * listOfSides[0]
+    override val name: String = "Круг"
+}
 
 class Triangle(
     override val listOfSides: List<Double>,
@@ -72,7 +84,8 @@ class Triangle(
         }
     }
     override val perimeter: Double = listOfSides.sum()
-    override val square: Double = sqrt(perimeter/2.0 * (perimeter/2.0 - listOfSides[0]) * (perimeter/2.0 - listOfSides[1]) * (perimeter/2.0 - listOfSides[2]))
+    override val square: Double = sqrt(perimeter/2.0 * (perimeter/2.0 - listOfSides[0]) *
+            (perimeter/2.0 - listOfSides[1]) * (perimeter/2.0 - listOfSides[2]))
     override val name: String = "Треугольник"
 }
 
@@ -80,7 +93,8 @@ fun test() {
     val figures = listOf(
         Square(listOf(3.0)),
         Rectangle(listOf(2.0, 4.0)),
-        Triangle(listOf(4.0, 3.0, 5.0))
+        Triangle(listOf(4.0, 3.0, 5.0)),
+        Circle(listOf(3.0))
     )
     for (fig in figures) {
         println(fig.name + " с периметром: " + fig.perimeter + ", площадью: " + "%.2f".format(fig.square))
