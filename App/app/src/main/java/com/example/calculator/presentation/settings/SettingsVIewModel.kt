@@ -10,7 +10,6 @@ import com.example.calculator.domain.entity.FormatResultEnum
 import com.example.calculator.domain.entity.ResultPanelType
 import kotlinx.coroutines.launch
 
-//import com.example.calculator.ResultPanelType
 
 class SettingsViewModel(
     private val settingsDao: SettingsDao

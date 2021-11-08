@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Toast
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -11,11 +12,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.calculator.R
+import com.example.calculator.data.db.history.HistoryResult
 import com.example.calculator.databinding.MainActivityBinding
 import com.example.calculator.di.HistoryRepositoryProvider
 import com.example.calculator.di.SettingsDaoProvider
 import com.example.calculator.domain.entity.ResultPanelType
-import com.example.calculator.presentation.history.HistoryActivity
 import com.example.calculator.presentation.settings.SettingsActivity
 //import kotlinx.android.synthetic.main.main_activity.*
 
@@ -32,11 +33,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val resultLauncher = registerForActivityResult(HistoryResult()) { item ->
+        viewModel.onHistoryResult(item)
+    }
 
-//    private val getResult: ActivityResultLauncher<Int> =
-//        registerForActivityResult(Result()) {result ->
-//            Toast.makeText(this, "result $result", Toast.LENGTH_SHORT).show()
-//        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,47 +123,15 @@ class MainActivity : AppCompatActivity() {
         viewBinding.expression.append(str)
     }
 
-//    fun deleteText() {
-//        calculation.text = ""
-//        result.text = ""
-//    }
-
-//    fun backText() {
-//        if (calculation.text.isNotEmpty()) {
-//            calculation.text = calculation.text.substring(0, calculation.text.length - 1)
-//            result.text = ""
-//
-//        }
-//    }
-
-//    fun doMath() {
-//        try {
-//            val ex = ExpressionBuilder(calculation.text.toString()).build()
-//            val answer = ex.evaluate()
-//            val longRes = answer.toLong()
-//            if (answer == longRes.toDouble()) {
-//                result.text = longRes.toString()
-//            } else {
-//                result.text = answer.toString()
-//            }
-//
-//
-//        } catch (e: Exception) {
-//            result.text = "Error"
-//
-//        }
-//    }
 
     private fun openSettings() {
         Toast.makeText(this, "Открытие настроек", Toast.LENGTH_SHORT).show()
         startActivity(Intent(this, SettingsActivity::class.java))
-//        intent.putExtra(SettingsActivity.SETTINGS_RESULT_KEY, 10)
-//        startActivity(intent)
 
     }
 
     private fun openHistory() {
-        startActivity(Intent(this, HistoryActivity::class.java))
+        resultLauncher.launch()
     }
 
 }

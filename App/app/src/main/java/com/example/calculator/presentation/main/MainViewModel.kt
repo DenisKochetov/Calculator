@@ -10,6 +10,7 @@ import com.example.calculator.domain.SettingsDao
 import com.example.calculator.domain.entity.ForceVibrationTypeEnum
 import com.example.calculator.domain.entity.FormatResultEnum
 import com.example.calculator.domain.entity.ResultPanelType
+import com.example.calculator.presentation.history.HistoryItem
 import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
 import kotlin.math.pow
@@ -88,7 +89,10 @@ class MainViewModel(
     }
 
     fun doMath() {
-            val formatResultType : FormatResultEnum? = _formatResultState.value
+        val formatResultType : FormatResultEnum? = _formatResultState.value
+        print(formatResultType)
+        Log.d("type", formatResultType.toString())
+
         try{
             val ex = ExpressionBuilder(expression).build()
             val answer = ex.evaluate()
@@ -98,14 +102,18 @@ class MainViewModel(
             } else {
                 result = answer.toString()
             }
+            Log.d("type", result.toString())
 
             result = when (formatResultType) {
-                FormatResultEnum.ZERO -> String.format("%0f", answer)
                 FormatResultEnum.ONE -> String.format("%.1f", answer)
                 FormatResultEnum.TWO -> String.format("%.2f", answer)
+                FormatResultEnum.THREE -> String.format("%.3f", answer)
                 FormatResultEnum.MANY -> answer.toString()
                 null -> answer.toString()
             }
+            Log.d("type", String.format("%.0f", answer))
+            Log.d("type", String.format("%.1f", answer))
+            Log.d("type", String.format("%.2f", answer))
 
 
         } catch (e: Exception) {
@@ -113,6 +121,9 @@ class MainViewModel(
 
         }
         _resultState.value = result
+        viewModelScope.launch{
+            historyRepository.add(HistoryItem(expression, result))
+        }
 
     }
 
@@ -135,9 +146,9 @@ class MainViewModel(
             }
 
             result = when (formatResultType) {
-                FormatResultEnum.ZERO -> String.format("%0f", answer)
                 FormatResultEnum.ONE -> String.format("%.1f", answer)
                 FormatResultEnum.TWO -> String.format("%.2f", answer)
+                FormatResultEnum.THREE -> String.format("%.3f", answer)
                 FormatResultEnum.MANY -> answer.toString()
                 null -> answer.toString()
             }
@@ -170,9 +181,9 @@ class MainViewModel(
             }
 
             result = when (formatResultType) {
-                FormatResultEnum.ZERO -> String.format("%0f", answer)
                 FormatResultEnum.ONE -> String.format("%.1f", answer)
                 FormatResultEnum.TWO -> String.format("%.2f", answer)
+                FormatResultEnum.THREE -> String.format("%.3f", answer)
                 FormatResultEnum.MANY -> answer.toString()
                 null -> answer.toString()
             }
@@ -195,6 +206,13 @@ class MainViewModel(
 //        withContext(Dispatchers.IO) {
 //            preferences.edit().putString(FORMAT_RESULT_TYPE_KEY, formatResultType.name).apply()
 //        }
+    fun onHistoryResult(item: HistoryItem?) {
+        if (item != null) {
+            expression = item.expression
+            _expressionState.value = expression
+            _resultState.value = item.result
+        }
+    }
 
 
 
@@ -202,6 +220,7 @@ class MainViewModel(
         super.onCleared()
         Log.d("MainViewMoodel", "onCleared")
     }
+
 
     companion object {
 

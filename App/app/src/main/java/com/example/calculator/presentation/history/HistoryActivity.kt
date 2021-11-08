@@ -23,13 +23,11 @@ class HistoryActivity : BaseActivity() {
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.history_activity)
 
-        val historyAdapter = HistoryAdapter(onItemClicked = {
-            viewModel.onItemClicked(it)
-        })
-
+        val historyAdapter = HistoryAdapter(viewModel::onItemClicked)
 
         with(viewBinding.list) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -40,8 +38,8 @@ class HistoryActivity : BaseActivity() {
             finish()
         }
 
-        viewModel.historyItemsState.observe(this) {
-            historyAdapter.setData(it)
+        viewModel.historyItemsState.observe(this) {state ->
+            historyAdapter.setData(state)
         }
 
         viewModel.closeWithResult.observe(this) {

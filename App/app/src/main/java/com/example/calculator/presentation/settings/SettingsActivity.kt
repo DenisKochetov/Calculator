@@ -30,14 +30,11 @@ class SettingsActivity: BaseActivity() {
 
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
         viewBinding.settingsBack.setOnClickListener { finish() }
 
-        // location of resultPanel
         viewBinding.resultPanelContainer.setOnClickListener {
             viewModel.onResultPanelTypeClicked()
         }
@@ -65,7 +62,6 @@ class SettingsActivity: BaseActivity() {
                 resources.getStringArray(R.array.format_result_types)[state.ordinal]
         }
 
-        // vibration force
         viewBinding.vibrationForceContainer.setOnClickListener {
             viewModel.onForceVibrationPanelTypeClicked()
         }
