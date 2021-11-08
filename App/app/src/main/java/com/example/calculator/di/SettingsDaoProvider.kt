@@ -11,8 +11,11 @@ object SettingsDaoProvider {
     fun getDao(context: Context): SettingsDao {
         return dao ?: SettingsDaoImpl(
             context.getSharedPreferences(
-                "settings", Context.MODE_PRIVATE))
-            .also { dao = it }
+                "settings",
+                Context.MODE_PRIVATE
+            )
+        ).also {
+            dao = it
+        }
     }
-
 }

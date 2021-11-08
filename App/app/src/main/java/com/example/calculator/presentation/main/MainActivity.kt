@@ -2,9 +2,11 @@ package com.example.calculator.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -12,6 +14,7 @@ import com.example.calculator.R
 import com.example.calculator.databinding.MainActivityBinding
 import com.example.calculator.di.HistoryRepositoryProvider
 import com.example.calculator.di.SettingsDaoProvider
+import com.example.calculator.domain.entity.ResultPanelType
 import com.example.calculator.presentation.history.HistoryActivity
 import com.example.calculator.presentation.settings.SettingsActivity
 //import kotlinx.android.synthetic.main.main_activity.*
@@ -78,6 +81,27 @@ class MainActivity : AppCompatActivity() {
             viewBinding.result.text = state
         }
 
+        viewModel.resultPanelState.observe(this) {
+            with(viewBinding.result) {
+                gravity = when (it) {
+                    ResultPanelType.LEFT -> Gravity.START.or(Gravity.CENTER_VERTICAL)
+                    ResultPanelType.RIGHT -> Gravity.END.or(Gravity.CENTER_VERTICAL)
+                    ResultPanelType.HIDE -> viewBinding.result.gravity
+                }
+                isVisible = it != ResultPanelType.HIDE
+            }
+        }
+
+//        viewModel.forceVibrationState.observe(this) { state ->
+//            forceVibrationValue = when (state) {
+//                NO -> VibrationMSTypes.NO.force
+//                SMALL -> VibrationMSTypes.SMALL.force
+//                MEDIUM -> VibrationMSTypes.MEDIUM.force
+//                STRONG -> VibrationMSTypes.STRONG.force
+//            }
+//        }
+
+
         viewBinding.mainActivitySettings?.setOnClickListener {
             openSettings()
         }
@@ -91,10 +115,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateText(str: String) {
         if (viewBinding.result.text != "" && viewBinding.result.text != "Error") {
-            viewBinding.expression?.text = viewBinding.result.text
+            viewBinding.expression.text = viewBinding.result.text
             viewBinding.result.text = ""
         }
-        viewBinding.expression?.append(str)
+        viewBinding.expression.append(str)
     }
 
 //    fun deleteText() {

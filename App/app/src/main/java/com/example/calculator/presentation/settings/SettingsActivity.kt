@@ -4,23 +4,30 @@ package com.example.calculator.presentation.settings
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.calculator.R
 import com.example.calculator.databinding.SettingsActivityBinding
+import com.example.calculator.di.SettingsDaoProvider
 import com.example.calculator.domain.entity.ResultPanelType
 import com.example.calculator.presentation.common.BaseActivity
 
 
 class SettingsActivity: BaseActivity() {
 
-//    companion object {
-//        const val SETTINGS_RESULT_KEY = "SETTING_RESULT_KEY"
-//    }
-
-
-    private val viewModel by viewModels<SettingsViewModel>()
+    private val viewModel by viewModels<SettingsViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return SettingsViewModel(SettingsDaoProvider.getDao(this@SettingsActivity)) as T
+            }
+        }
+    }
 
     private val viewBinding by viewBinding(SettingsActivityBinding::bind)
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

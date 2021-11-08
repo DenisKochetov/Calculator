@@ -1,5 +1,7 @@
 package com.example.calculator.domain
 
+import com.example.calculator.domain.entity.ForceVibrationTypeEnum
+import com.example.calculator.domain.entity.FormatResultEnum
 import com.example.calculator.domain.entity.ResultPanelType
 
 
@@ -9,14 +11,12 @@ interface SettingsDao {
 
     suspend fun getResultPanelType(): ResultPanelType
 
-    suspend fun getAnswerPrecision(): Int
+    suspend fun getFormatResultType(): FormatResultEnum
 
-    suspend fun setAnswerPrecision(answerPrecision: Int)
+    suspend fun setFormatResultType(formatResultType: FormatResultEnum)
 
-    fun getResultAccuracy(): Int
+    suspend fun getForceVibrationType(): ForceVibrationTypeEnum
 
-    fun setVibrationForce(force: Int)
-
-    fun getVibrationForce(): Int
+    suspend fun setForceVibrationType(forceVibrationType: ForceVibrationTypeEnum)
 
 }
