@@ -10,6 +10,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.calculator.R
 import com.example.calculator.databinding.SettingsActivityBinding
 import com.example.calculator.di.SettingsDaoProvider
+import com.example.calculator.domain.entity.ForceVibrationTypeEnum
+import com.example.calculator.domain.entity.FormatResultEnum
 import com.example.calculator.domain.entity.ResultPanelType
 import com.example.calculator.presentation.common.BaseActivity
 
@@ -33,29 +35,49 @@ class SettingsActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
-//        val data = intent.getIntExtra(SETTINGS_RESULT_KEY, -1)
+        viewBinding.settingsBack.setOnClickListener { finish() }
 
-//        Toast.makeText(this, "Назад", Toast.LENGTH_SHORT).show()
-
-        viewBinding.settingsBack.setOnClickListener{
-            finish()
-        }
-
-        viewBinding.resultPanelContainer.setOnClickListener{
+        // location of resultPanel
+        viewBinding.resultPanelContainer.setOnClickListener {
             viewModel.onResultPanelTypeClicked()
         }
 
-        viewModel.resultPanelState.observe(this){state ->
+        viewModel.resultPanelState.observe(this) { state ->
             viewBinding.resultPanelDescription.text =
                 resources.getStringArray(R.array.result_panel_types)[state.ordinal]
         }
 
-        viewModel.openResultPanelAction.observe(this){ type ->
+        viewModel.openResultPanelAction.observe(this) { type ->
             showDialog(type)
-
         }
 
+        // accuracy of result (digits after point)
+        viewBinding.formatResultContainer.setOnClickListener {
+            viewModel.onFormatResultPanelTypeClicked()
+        }
 
+        viewModel.openFormatResultAction.observe(this) { type ->
+            showDialogFormatResultPanel(type)
+        }
+
+        viewModel.formatResultState.observe(this) { state ->
+            viewBinding.formatResultViewDescription.text =
+                resources.getStringArray(R.array.format_result_types)[state.ordinal]
+        }
+
+        // vibration force
+        viewBinding.vibrationForceContainer.setOnClickListener {
+            viewModel.onForceVibrationPanelTypeClicked()
+        }
+
+        viewModel.openForceVibrationAction.observe(this) { type ->
+            showDialogForceVibrationPanel(type)
+        }
+
+        viewModel.forceVibrationState.observe(this) { state ->
+            viewBinding.vibrationForceViewDescription.text =
+                resources.getStringArray(R.array.vibration_force_types)[state.ordinal]
+        }
 
     }
 
@@ -69,6 +91,34 @@ class SettingsActivity: BaseActivity() {
             }
             .setNegativeButton("Отмена"){dialog, id ->}
             .setSingleChoiceItems(R.array.result_panel_types, type.ordinal) {dialog, id ->
+                result = id
+            }
+            .show()
+    }
+
+    private fun showDialogFormatResultPanel(type: FormatResultEnum) {
+        var result: Int? = null
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.settings_result_panel_title))
+            .setPositiveButton(getString(R.string.ok_positive_button)) { dialog, id ->
+                result?.let { viewModel.onFormatResultChanged(FormatResultEnum.values()[it]) }
+            }
+            .setNegativeButton(getString(R.string.no_negative_button)) { dialog, id -> }
+            .setSingleChoiceItems(R.array.format_result_types, type.ordinal) { dialog, id ->
+                result = id
+            }
+            .show()
+    }
+
+    private fun showDialogForceVibrationPanel(type: ForceVibrationTypeEnum) {
+        var result: Int? = null
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.settings_result_panel_title))
+            .setPositiveButton(getString(R.string.ok_positive_button)) { dialog, id ->
+                result?.let { viewModel.onForceVibrationChanged(ForceVibrationTypeEnum.values()[it]) }
+            }
+            .setNegativeButton(getString(R.string.no_negative_button)) { dialog, id -> }
+            .setSingleChoiceItems(R.array.vibration_force_types, type.ordinal) { dialog, id ->
                 result = id
             }
             .show()

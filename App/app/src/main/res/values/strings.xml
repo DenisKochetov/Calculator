@@ -8,13 +8,24 @@
         <item>Скрыта.</item>
 
     </array>
+    <string name="ok_positive_button">Да</string>
+    <string name="no_negative_button">Нет</string>
+
     <string name="resultPanelSettingsText">Расположение панели результата</string>
     <string name="formatResultViewName">Количество знаков после запятой</string>
+    <string name="vibrationForceViewName">Уровень вибрации</string>
     <string-array name="format_result_types">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>нет ограничений</item>
+    </string-array>
+
+    <string-array name="vibration_force_types">
+        <item>Нет</item>
+        <item>Слабая</item>
+        <item>Средняя</item>
+        <item>Сильная</item>
     </string-array>
 
 

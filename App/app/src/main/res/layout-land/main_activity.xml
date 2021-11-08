@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".presentation.main.MainActivity">
     <ImageView
-        android:id="@+id/main_activity_settings"
+        android:id="@+id/mainActivitySettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|bottom"
@@ -79,7 +79,7 @@
                 />
             <TextView
                 style="@style/ActionButton"
-                android:id="@+id/btn_divide"
+                android:id="@+id/btnDivide"
                 android:text="/"
                 />
             <TextView
@@ -114,11 +114,11 @@
                 android:id="@+id/btnMultiply"
                 android:text="*"
                 />
+
             <TextView
-                style="@style/ActionButton"
                 android:id="@+id/btnSqrt"
-                android:text="sqrt(x)"
-                />
+                style="@style/ActionButton"
+                android:text="sqrt(x)" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

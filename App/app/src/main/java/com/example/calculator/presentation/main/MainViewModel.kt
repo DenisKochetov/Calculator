@@ -12,6 +12,8 @@ import com.example.calculator.domain.entity.FormatResultEnum
 import com.example.calculator.domain.entity.ResultPanelType
 import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class MainViewModel(
     private val settingsDao: SettingsDao,
@@ -90,12 +92,12 @@ class MainViewModel(
         try{
             val ex = ExpressionBuilder(expression).build()
             val answer = ex.evaluate()
-//            val longRes = answer.toLong()
-//            if (answer == longRes.toDouble()) {
-//                result = longRes.toString()
-//            } else {
-//                result = answer.toString()
-//            }
+            val longRes = answer.toLong()
+            if (answer == longRes.toDouble()) {
+                result = longRes.toString()
+            } else {
+                result = answer.toString()
+            }
 
             result = when (formatResultType) {
                 FormatResultEnum.ZERO -> String.format("%0f", answer)
@@ -106,6 +108,74 @@ class MainViewModel(
             }
 
 
+        } catch (e: Exception) {
+            result = "Error"
+
+        }
+        _resultState.value = result
+
+    }
+
+    fun onSqrtClick() {
+        if (result != "" && result != "Error") {
+            expression = result
+            _expressionState.value = result
+            result = ""
+            _resultState.value = result
+        }
+        val formatResultType : FormatResultEnum? = _formatResultState.value
+        try{
+            val ex = ExpressionBuilder(expression).build()
+            val answer = sqrt(ex.evaluate())
+            val longRes = answer.toLong()
+            if (answer == longRes.toDouble()) {
+                result = longRes.toString()
+            } else {
+                result = answer.toString()
+            }
+
+            result = when (formatResultType) {
+                FormatResultEnum.ZERO -> String.format("%0f", answer)
+                FormatResultEnum.ONE -> String.format("%.1f", answer)
+                FormatResultEnum.TWO -> String.format("%.2f", answer)
+                FormatResultEnum.MANY -> answer.toString()
+                null -> answer.toString()
+            }
+
+
+        } catch (e: Exception) {
+            result = "Error"
+
+        }
+        _resultState.value = result
+
+    }
+
+    fun onSqrClick() {
+        if (result != "" && result != "Error") {
+            expression = result
+            _expressionState.value = result
+            result = ""
+            _resultState.value = result
+        }
+        val formatResultType : FormatResultEnum? = _formatResultState.value
+        try{
+            val ex = ExpressionBuilder(expression).build()
+            val answer = ex.evaluate().pow(2)
+            val longRes = answer.toLong()
+            if (answer == longRes.toDouble()) {
+                result = longRes.toString()
+            } else {
+                result = answer.toString()
+            }
+
+            result = when (formatResultType) {
+                FormatResultEnum.ZERO -> String.format("%0f", answer)
+                FormatResultEnum.ONE -> String.format("%.1f", answer)
+                FormatResultEnum.TWO -> String.format("%.2f", answer)
+                FormatResultEnum.MANY -> answer.toString()
+                null -> answer.toString()
+            }
 
 
         } catch (e: Exception) {

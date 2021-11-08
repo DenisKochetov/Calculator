@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
         viewBinding.btnAC?.setOnClickListener{viewModel.deleteText()}
         viewBinding.btnBack?.setOnClickListener{viewModel.backText()}
         viewBinding.btnEqual?.setOnClickListener{viewModel.doMath()}
+        viewBinding.btnSqrt?.setOnClickListener{viewModel.onSqrtClick()}
+        viewBinding.btnPower?.setOnClickListener{viewModel.onSqrClick()}
 
         listOf(
             viewBinding.btn0,
