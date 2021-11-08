@@ -82,11 +82,11 @@
                 android:id="@+id/btnDivide"
                 android:text="/"
                 />
+
             <TextView
-                style="@style/ActionButton"
                 android:id="@+id/btnPower"
-                android:text="x^2"
-                />
+                style="@style/ActionButton"
+                android:text="^2" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,7 +118,7 @@
             <TextView
                 android:id="@+id/btnSqrt"
                 style="@style/ActionButton"
-                android:text="sqrt(x)" />
+                android:text="√" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -201,10 +201,11 @@
                 android:id="@+id/btn0"
                 android:text="0"
                 />
-            <TextView
-                style="@style/NumberButton"
+            <ImageView
                 android:id="@+id/btnBack"
-                android:text="Back"
+                style="@style/NumberButton"
+                app:srcCompat="@drawable/ic_outline_backspace_24"
+                android:scaleType="center"
                 />
             <TextView
                 style="@style/ActionButton"
