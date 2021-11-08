@@ -15,7 +15,7 @@ class SettingsDaoImpl (
 
     override suspend fun getResultPanelType(): ResultPanelType = withContext(Dispatchers.IO) {
         preferences.getString(RESULT_PANEL_TYPE_KEY, null)
-        ?.let { ResultPanelType.valueOf(it) } ?: ResultPanelType.LEFT
+        ?.let { ResultPanelType.valueOf(it) } ?: ResultPanelType.RIGHT
     }
 
     override suspend fun setResultPanelType(resultPanelType: ResultPanelType) = withContext(Dispatchers.IO) {

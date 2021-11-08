@@ -13,6 +13,7 @@ import com.example.calculator.domain.entity.ResultPanelType
 import com.example.calculator.presentation.history.HistoryItem
 import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
+import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -50,23 +51,14 @@ class MainViewModel(
 
 
     fun onNumberClick(number: Int){
-        if (result != "" && result != "Error") {
-            expression = result
-            _expressionState.value = result
-            result = ""
-            _resultState.value = result
-        }
+        updateExpression()
         expression  += number.toString()
         _expressionState.value = expression
     }
 
     fun onNumberClick(command: String){
-        if (result != "" && result != "Error") {
-            expression = result
-            _expressionState.value = result
-            result = ""
-            _resultState.value = result
-        }
+        updateExpression()
+
         expression  += command.toString()
         _expressionState.value = expression
     }
@@ -104,12 +96,17 @@ class MainViewModel(
             }
             Log.d("type", result.toString())
 
-            result = when (formatResultType) {
-                FormatResultEnum.ONE -> String.format("%.1f", answer)
-                FormatResultEnum.TWO -> String.format("%.2f", answer)
-                FormatResultEnum.THREE -> String.format("%.3f", answer)
-                FormatResultEnum.MANY -> answer.toString()
-                null -> answer.toString()
+            if (floor(answer) == answer) {
+                result.toInt().toString()
+            } else {
+
+                result = when (formatResultType) {
+                    FormatResultEnum.ONE -> String.format("%.1f", answer)
+                    FormatResultEnum.TWO -> String.format("%.2f", answer)
+                    FormatResultEnum.THREE -> String.format("%.3f", answer)
+                    FormatResultEnum.MANY -> answer.toString()
+                    null -> answer.toString()
+                }
             }
             Log.d("type", String.format("%.0f", answer))
             Log.d("type", String.format("%.1f", answer))
@@ -128,29 +125,22 @@ class MainViewModel(
     }
 
     fun onSqrtClick() {
-        if (result != "" && result != "Error") {
-            expression = result
-            _expressionState.value = result
-            result = ""
-            _resultState.value = result
-        }
+        updateExpression()
         val formatResultType : FormatResultEnum? = _formatResultState.value
         try{
             val ex = ExpressionBuilder(expression).build()
             val answer = sqrt(ex.evaluate())
-            val longRes = answer.toLong()
-            if (answer == longRes.toDouble()) {
-                result = longRes.toString()
+            if (floor(answer) == answer) {
+                result.toInt().toString()
             } else {
-                result = answer.toString()
-            }
 
-            result = when (formatResultType) {
-                FormatResultEnum.ONE -> String.format("%.1f", answer)
-                FormatResultEnum.TWO -> String.format("%.2f", answer)
-                FormatResultEnum.THREE -> String.format("%.3f", answer)
-                FormatResultEnum.MANY -> answer.toString()
-                null -> answer.toString()
+                result = when (formatResultType) {
+                    FormatResultEnum.ONE -> String.format("%.1f", answer)
+                    FormatResultEnum.TWO -> String.format("%.2f", answer)
+                    FormatResultEnum.THREE -> String.format("%.3f", answer)
+                    FormatResultEnum.MANY -> answer.toString()
+                    null -> answer.toString()
+                }
             }
 
 
@@ -159,16 +149,14 @@ class MainViewModel(
 
         }
         _resultState.value = result
+        viewModelScope.launch{
+            historyRepository.add(HistoryItem(expression, result))
+        }
 
     }
 
     fun onSqrClick() {
-        if (result != "" && result != "Error") {
-            expression = result
-            _expressionState.value = result
-            result = ""
-            _resultState.value = result
-        }
+        updateExpression()
         val formatResultType : FormatResultEnum? = _formatResultState.value
         try{
             val ex = ExpressionBuilder(expression).build()
@@ -176,16 +164,18 @@ class MainViewModel(
             val longRes = answer.toLong()
             if (answer == longRes.toDouble()) {
                 result = longRes.toString()
-            } else {
-                result = answer.toString()
             }
+            if (floor(answer) == answer) {
+                result.toInt().toString()
+            } else {
 
-            result = when (formatResultType) {
-                FormatResultEnum.ONE -> String.format("%.1f", answer)
-                FormatResultEnum.TWO -> String.format("%.2f", answer)
-                FormatResultEnum.THREE -> String.format("%.3f", answer)
-                FormatResultEnum.MANY -> answer.toString()
-                null -> answer.toString()
+                result = when (formatResultType) {
+                    FormatResultEnum.ONE -> String.format("%.1f", answer)
+                    FormatResultEnum.TWO -> String.format("%.2f", answer)
+                    FormatResultEnum.THREE -> String.format("%.3f", answer)
+                    FormatResultEnum.MANY -> answer.toString()
+                    null -> answer.toString()
+                }
             }
 
 
@@ -194,18 +184,24 @@ class MainViewModel(
 
         }
         _resultState.value = result
+        viewModelScope.launch{
+            historyRepository.add(HistoryItem(expression, result))
+        }
 
     }
 
-//    override suspend fun getFormatResultType(): FormatResultEnum = withContext(Dispatchers.IO) {
-//        preferences.getString(FORMAT_RESULT_TYPE_KEY, null)
-//            ?.let { FormatResultEnum.valueOf(it) } ?: FormatResultEnum.MANY
-//    }
-//
-//    override suspend fun setFormatResultType(formatResultType: FormatResultTypeEnum) =
-//        withContext(Dispatchers.IO) {
-//            preferences.edit().putString(FORMAT_RESULT_TYPE_KEY, formatResultType.name).apply()
-//        }
+
+
+    fun updateExpression() {
+        if (result != "" && result != "Error") {
+            expression = result
+            _expressionState.value = result
+            result = ""
+            _resultState.value = result
+        }
+    }
+
+
     fun onHistoryResult(item: HistoryItem?) {
         if (item != null) {
             expression = item.expression
@@ -213,7 +209,6 @@ class MainViewModel(
             _resultState.value = item.result
         }
     }
-
 
 
     override fun onCleared() {
@@ -227,6 +222,19 @@ class MainViewModel(
         private const val RESULT_PANEL_TYPE_KEY = "RESULT_PANEL_TYPE_KEY"
         private const val FORMAT_RESULT_TYPE_KEY = "FORMAT_RESULT_TYPE_KEY"
     }
+
+    private fun resultUpdate() {
+        doMath()
+        _resultState.value = result
+    }
+
+//    fun onStart() {
+//        viewModelScope.launch {
+//            _resultPanelState.value = settingsDao.getResultPanelType()
+//            _formatResultState.value = settingsDao.getFormatResultType()
+//            resultUpdate()
+//        }
+//    }
 }
 
 

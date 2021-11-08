@@ -81,7 +81,6 @@ class SettingsActivity: BaseActivity() {
         var result: Int? = null
         AlertDialog.Builder(this)
             .setTitle(R.string.settings_result_panel_title)
-//            .setMessage("Message")
             .setPositiveButton("Ок"){dialog, id ->
                 result?.let {viewModel.onResultPanelTypeChanged(ResultPanelType.values()[it])}
             }
