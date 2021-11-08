@@ -131,7 +131,8 @@ class MainViewModel(
             val ex = ExpressionBuilder(expression).build()
             val answer = sqrt(ex.evaluate())
             if (floor(answer) == answer) {
-                result.toInt().toString()
+//                result.toInt().toString()
+                result = String.format("%.0f", answer)
             } else {
 
                 result = when (formatResultType) {
